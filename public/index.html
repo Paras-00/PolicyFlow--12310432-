@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PolicyFlow — TripperShield</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f1117;
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* ── Header ── */
+        header {
+            background: linear-gradient(135deg, #1a1d2e 0%, #16213e 100%);
+            border-bottom: 1px solid #2d3748;
+            padding: 18px 40px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            color: #60a5fa;
+            letter-spacing: -0.5px;
+        }
+
+        .badge {
+            background: #1e3a5f;
+            color: #60a5fa;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 20px;
+            border: 1px solid #2563eb44;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        /* ── Layout ── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 36px 24px;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 28px;
+        }
+
+        /* ── Cards ── */
+        .card {
+            background: #1a1d2e;
+            border: 1px solid #2d3748;
+            border-radius: 14px;
+            padding: 24px;
+        }
+
+        .card h2 {
+            font-size: 15px;
+            font-weight: 600;
+            color: #94a3b8;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 20px;
+        }
+
+        /* ── Form ── */
+        .form-row {
+            margin-bottom: 14px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 500;
+            color: #94a3b8;
+            margin-bottom: 5px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            background: #0f1117;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            padding: 9px 12px;
+            color: #e2e8f0;
+            font-size: 13px;
+            font-family: 'Inter', sans-serif;
+            transition: border-color 0.2s;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #60a5fa;
+        }
+
+        select option {
+            background: #1a1d2e;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        /* ── Buttons ── */
+        .btn {
+            width: 100%;
+            padding: 11px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 6px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb, #3b82f6);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px #3b82f644;
+        }
+
+        .btn-green {
+            background: linear-gradient(135deg, #059669, #10b981);
+            color: #fff;
+        }
+
+        .btn-green:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 20px #10b98144;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* ── Status badges ── */
+        .status {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+        }
+
+        .s-RECEIVED {
+            background: #1e3a5f;
+            color: #60a5fa;
+        }
+
+        .s-VALIDATED {
+            background: #1e3a5f;
+            color: #60a5fa;
+        }
+
+        .s-SUBMITTED {
+            background: #312e81;
+            color: #a78bfa;
+        }
+
+        .s-ISSUED {
+            background: #064e3b;
+            color: #34d399;
+        }
+
+        .s-FAILED {
+            background: #4c0519;
+            color: #f87171;
+        }
+
+        .s-PENDING_CONFIRMATION {
+            background: #422006;
+            color: #fb923c;
+        }
+
+        /* ── Premium highlight ── */
+        .premium-box {
+            background: linear-gradient(135deg, #1e3a5f33, #1e3a5f55);
+            border: 1px solid #2563eb44;
+            border-radius: 10px;
+            padding: 14px 18px;
+            margin: 16px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .premium-label {
+            font-size: 12px;
+            color: #94a3b8;
+        }
+
+        .premium-value {
+            font-size: 22px;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+        /* ── Timeline / Audit ── */
+        .timeline {
+            margin-top: 12px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 12px;
+            padding: 10px 0;
+            border-bottom: 1px solid #2d374844;
+            align-items: flex-start;
+        }
+
+        .timeline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #3b82f6;
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+
+        .timeline-content {
+            flex: 1;
+        }
+
+        .timeline-heading {
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .timeline-sub {
+            font-size: 11px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        /* ── Requests list ── */
+        .request-item {
+            padding: 14px;
+            border: 1px solid #2d3748;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .request-item:hover {
+            background: #1e2435;
+            border-color: #3b82f6;
+        }
+
+        .request-item.active {
+            border-color: #3b82f6;
+            background: #1e2435;
+        }
+
+        .req-id {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .req-name {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 2px;
+        }
+
+        .req-premium {
+            font-size: 13px;
+            font-weight: 600;
+            color: #34d399;
+        }
+
+        /* ── Empty state ── */
+        .empty {
+            text-align: center;
+            padding: 40px 20px;
+            color: #475569;
+        }
+
+        .empty-icon {
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .empty p {
+            font-size: 13px;
+        }
+
+        /* ── Notification toast ── */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #1e3a5f;
+            border: 1px solid #3b82f6;
+            color: #e2e8f0;
+            padding: 12px 20px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s;
+            z-index: 100;
+            max-width: 320px;
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .toast.error {
+            background: #4c0519;
+            border-color: #f87171;
+        }
+
+        .toast.success {
+            background: #064e3b;
+            border-color: #34d399;
+        }
+
+        /* ── Detail panel ── */
+        .detail-meta {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .meta-item label {
+            font-size: 11px;
+            color: #64748b;
+        }
+
+        .meta-item p {
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .section-label {
+            font-size: 11px;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin: 16px 0 8px;
+        }
+
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 28px;
+        }
+
+        @media (max-width: 800px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">🛡️ PolicyFlow</div>
+        <span class="badge">TripperShield</span>
+        <span style="margin-left:auto; font-size:12px; color:#475569;">Campus Engineering Challenge</span>
+    </header>
+
+    <div class="container">
+
+        <!-- LEFT: Create Form + List -->
+        <div>
+            <!-- Create Form -->
+            <div class="card" style="margin-bottom:20px">
+                <h2>New Policy Request</h2>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label>Client Request ID</label>
+                        <input id="client_request_id" value="AGT-2026-0001" placeholder="AGT-2026-0001">
+                    </div>
+                    <div class="form-row">
+                        <label>Agent ID</label>
+                        <input id="agent_id" value="AGENT-17" placeholder="AGENT-17">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <label>Customer Name</label>
+                    <input id="customer_name" value="Sample Customer" placeholder="Full name">
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label>Date of Birth</label>
+                        <input id="date_of_birth" type="date" value="1998-04-10">
+                    </div>
+                    <div class="form-row">
+                        <label>Plan Code</label>
+                        <select id="plan_code">
+                            <option>BASIC</option>
+                            <option selected>PLUS</option>
+                            <option>PREMIUM</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label>Trip Start</label>
+                        <input id="trip_start" type="date" value="2026-11-10">
+                    </div>
+                    <div class="form-row">
+                        <label>Trip End</label>
+                        <input id="trip_end" type="date" value="2026-11-14">
+                    </div>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-row">
+                        <label>Destination</label>
+                        <select id="destination">
+                            <option>DOMESTIC</option>
+                            <option selected>INTERNATIONAL</option>
+                        </select>
+                    </div>
+                    <div class="form-row">
+                        <label>Sum Insured (₹)</label>
+                        <select id="sum_insured">
+                            <option value="100000">₹1,00,000</option>
+                            <option value="300000" selected>₹3,00,000</option>
+                            <option value="500000">₹5,00,000</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="createRequest()">Create Policy Request</button>
+            </div>
+
+            <!-- Requests List -->
+            <div class="card">
+                <h2>All Requests <span id="req-count" style="font-size:11px; color:#475569; margin-left:6px;"></span>
+                </h2>
+                <div id="requests-list">
+                    <div class="empty">
+                        <div class="empty-icon">📋</div>
+                        <p>No requests yet.<br>Create one above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RIGHT: Detail View -->
+        <div class="right-col">
+            <div class="card" id="detail-panel">
+                <h2>Request Detail</h2>
+                <div class="empty" style="padding:30px 0">
+                    <div class="empty-icon">🔍</div>
+                    <p>Select a request to view details.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <script>
+        const API = '/api';
+        let allRequests = [];
+        let selectedId = null;
+
+        // ── API helpers ────────────────────────────────────────
+        async function api(method, path, body) {
+            const res = await fetch(API + path, {
+                method,
+                headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                body: body ? JSON.stringify(body) : undefined,
+            });
+            return { ok: res.ok, status: res.status, data: await res.json() };
+        }
+
+        // ── Toast ──────────────────────────────────────────────
+        function toast(msg, type = 'info') {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = 'toast show ' + (type === 'error' ? 'error' : type === 'success' ? 'success' : '');
+            clearTimeout(window._toastTimer);
+            window._toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        // ── Create Request ─────────────────────────────────────
+        async function createRequest() {
+            const body = {
+                client_request_id: document.getElementById('client_request_id').value.trim(),
+                agent_id: document.getElementById('agent_id').value.trim(),
+                customer_name: document.getElementById('customer_name').value.trim(),
+                date_of_birth: document.getElementById('date_of_birth').value,
+                destination: document.getElementById('destination').value,
+                trip_start: document.getElementById('trip_start').value,
+                trip_end: document.getElementById('trip_end').value,
+                plan_code: document.getElementById('plan_code').value,
+                sum_insured: parseInt(document.getElementById('sum_insured').value),
+            };
+
+            const res = await api('POST', '/policy-requests', body);
+
+            if (!res.ok) {
+                const errors = res.data.errors ? Object.values(res.data.errors).flat().join(' | ') : res.data.message;
+                toast('❌ ' + errors, 'error');
+                return;
+            }
+
+            const msg = res.status === 201 ? '✅ Request created!' : '⚠️ Duplicate returned (existing request)';
+            toast(msg, res.status === 201 ? 'success' : 'info');
+            await loadRequests();
+            selectRequest(res.data.data.id);
+        }
+
+        // ── Load All Requests ──────────────────────────────────
+        async function loadRequests() {
+            const res = await api('GET', '/policy-requests');
+            if (!res.ok) return;
+            allRequests = res.data.data || [];
+            renderList();
+        }
+
+        function renderList() {
+            const el = document.getElementById('requests-list');
+            const count = document.getElementById('req-count');
+            count.textContent = allRequests.length ? `(${allRequests.length})` : '';
+
+            if (!allRequests.length) {
+                el.innerHTML = '<div class="empty"><div class="empty-icon">📋</div><p>No requests yet.<br>Create one above.</p></div>';
+                return;
+            }
+
+            el.innerHTML = allRequests.map(r => `
+            <div class="request-item ${selectedId === r.id ? 'active' : ''}" onclick="selectRequest(${r.id})">
+                <div>
+                    <div class="req-id">${r.client_request_id}</div>
+                    <div class="req-name">${r.customer_name} · ${r.agent_id}</div>
+                </div>
+                <div style="text-align:right">
+                    <span class="status s-${r.status}">${r.status}</span>
+                    <div class="req-premium" style="margin-top:4px">${r.premium || '—'}</div>
+                </div>
+            </div>
+        `).join('');
+        }
+
+        // ── Select & View Request ──────────────────────────────
+        async function selectRequest(id) {
+            selectedId = id;
+            renderList();
+
+            const res = await api('GET', `/policy-requests/${id}`);
+            if (!res.ok) return;
+            renderDetail(res.data.data);
+        }
+
+        function renderDetail(r) {
+            const panel = document.getElementById('detail-panel');
+
+            const historyHtml = (r.state_history || []).map(h => `
+            <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="timeline-heading">
+                        ${h.from_status ? `<span style="color:#64748b">${h.from_status}</span> → ` : ''}
+                        <strong>${h.to_status}</strong>
+                    </div>
+                    <div class="timeline-sub">${h.reason || ''} · ${new Date(h.created_at).toLocaleTimeString()}</div>
+                </div>
+            </div>
+        `).join('') || '<div style="color:#475569;font-size:13px">No history yet.</div>';
+
+            panel.innerHTML = `
+            <h2>Request Detail
+                <span class="status s-${r.status}" style="margin-left:10px;font-size:10px">${r.status}</span>
+            </h2>
+
+            <div class="premium-box">
+                <div>
+                    <div class="premium-label">Calculated Premium</div>
+                    <div class="premium-value">${r.premium || '—'}</div>
+                </div>
+                <div style="text-align:right">
+                    <div class="premium-label">${r.plan_code} · ${r.destination}</div>
+                    <div style="font-size:12px;color:#94a3b8;margin-top:4px">
+                        ${r.trip_start} → ${r.trip_end}
+                    </div>
+                </div>
+            </div>
+
+            <div class="detail-meta">
+                <div class="meta-item"><label>Request ID</label><p>${r.client_request_id}</p></div>
+                <div class="meta-item"><label>Agent ID</label><p>${r.agent_id}</p></div>
+                <div class="meta-item"><label>Customer</label><p>${r.customer_name}</p></div>
+                <div class="meta-item"><label>Sum Insured</label><p>₹${Number(r.sum_insured).toLocaleString('en-IN')}</p></div>
+                ${r.policy_number ? `<div class="meta-item"><label>Policy Number</label><p style="color:#34d399">${r.policy_number}</p></div>` : ''}
+                ${r.provider_reference ? `<div class="meta-item"><label>Provider Ref</label><p>${r.provider_reference}</p></div>` : ''}
+            </div>
+
+            ${r.status === 'RECEIVED' || r.status === 'VALIDATED' || r.status === 'FAILED' ? `
+                <button class="btn btn-green" onclick="submitRequest(${r.id})">
+                    🚀 Submit to Insurer
+                </button>
+            ` : ''}
+
+            <div class="section-label">State History (Audit Trail)</div>
+            <div class="timeline">${historyHtml}</div>
+        `;
+        }
+
+        // ── Submit to Insurer ──────────────────────────────────
+        async function submitRequest(id) {
+            toast('⏳ Submitting to insurer...', 'info');
+            const res = await api('POST', `/policy-requests/${id}/submit`);
+
+            if (!res.ok) {
+                toast('❌ Submit failed: ' + (res.data.message || 'Unknown error'), 'error');
+                return;
+            }
+
+            const status = res.data.data?.status;
+            if (status === 'ISSUED') toast('🎉 Policy ISSUED! Number: ' + res.data.data?.policy_number, 'success');
+            else toast('Status updated to: ' + status, 'info');
+
+            await loadRequests();
+            selectRequest(id);
+        }
+
+        // ── Init ───────────────────────────────────────────────
+        loadRequests();
+        setInterval(loadRequests, 10000); // auto-refresh every 10s
+    </script>
+</body>
+
+</html>
